@@ -1,0 +1,37 @@
+{
+  "name": "mcp-server-typescript-starter",
+  "version": "0.1.0",
+  "description": "A production-grade MCP server starter in TypeScript — 3 tools, 2 resources, 1 prompt, streaming progress, Zod validation, dual transport (stdio + HTTP).",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "bun run src/index.ts",
+    "dev:http": "bun run src/http.ts",
+    "build": "bun build src/index.ts --outdir dist --target node",
+    "typecheck": "tsc --noEmit",
+    "start": "node dist/index.js",
+    "start:http": "node dist/http.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai-agents",
+    "typescript",
+    "llm-tools",
+    "claude",
+    "cursor",
+    "opencode"
+  ],
+  "author": "Piyush Mehta <me@piyushmehta.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "express": "^4.21.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}
