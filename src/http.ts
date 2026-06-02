@@ -13,6 +13,8 @@
  * and you have a hosted, shareable MCP server.
  */
 import express from "express";
+import { readFile } from "node:fs/promises";
+import { execSync } from "node:child_process";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { z } from "zod";
@@ -84,7 +86,7 @@ function buildServer() {
   // Resource: README
   server.resource("project-readme", "file://README.md", { description: "Project README" }, async (uri) => {
     try {
-      const text = await Bun.file("README.md").text();
+      const text = await readFile("README.md", "utf-8");
       return { contents: [{ uri: uri.href, text }] };
     } catch {
       return { contents: [{ uri: uri.href, text: "README not found" }] };
@@ -94,8 +96,8 @@ function buildServer() {
   // Resource: git context
   server.resource("git-context", "git://status", { description: "Git status" }, async (uri) => {
     try {
-      const branch = (await Bun.$`git rev-parse --abbrev-ref HEAD`.quiet()).text().trim();
-      const lastCommit = (await Bun.$`git log -1 --format="%h %s"`.quiet()).text().trim();
+      const branch = execSync("git rev-parse --abbrev-ref HEAD", { encoding: "utf-8" }).trim();
+      const lastCommit = execSync('git log -1 --format="%h %s"', { encoding: "utf-8" }).trim();
       return { contents: [{ uri: uri.href, text: `Branch: ${branch}\nLast commit: ${lastCommit}` }] };
     } catch {
       return { contents: [{ uri: uri.href, text: "Not a git repo" }] };

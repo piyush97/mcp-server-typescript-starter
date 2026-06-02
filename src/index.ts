@@ -1,5 +1,7 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { readFile } from "node:fs/promises";
+import { execSync } from "node:child_process";
 import { z } from "zod";
 import { jsonToTypeScript } from "./json-to-ts.js";
 
@@ -142,7 +144,8 @@ server.tool(
         "Optional SQL DDL/DML to run before the query (e.g. CREATE TABLE, INSERT INTO statements separated by semicolons)",
       ),
   },
-  async ({ query, seedData }, { sendProgress }) => {
+  async ({ query, seedData }, extra: any) => {
+    const sendProgress = extra?.sendProgress;
     try {
       await sendProgress?.({ progress: 0.1, message: "Connecting to database..." });
 
@@ -214,7 +217,7 @@ server.resource(
   },
   async (uri) => {
     try {
-      const text = await Bun.file("README.md").text();
+      const text = await readFile("README.md", "utf-8");
       return {
         contents: [
           {
@@ -247,15 +250,9 @@ server.resource(
   },
   async (uri) => {
     try {
-      const branch = (
-        await Bun.$`git rev-parse --abbrev-ref HEAD`.quiet()
-      ).text().trim();
-      const lastCommit = (
-        await Bun.$`git log -1 --format="%h %s"`.quiet()
-      ).text().trim();
-      const status = (
-        await Bun.$`git status --short`.quiet()
-      ).text().trim();
+      const branch = execSync("git rev-parse --abbrev-ref HEAD", { encoding: "utf-8" }).trim();
+      const lastCommit = execSync('git log -1 --format="%h %s"', { encoding: "utf-8" }).trim();
+      const status = execSync("git status --short", { encoding: "utf-8" }).trim();
 
       return {
         contents: [
@@ -331,7 +328,7 @@ async function main() {
   await server.connect(transport);
 
   // stderr is for logs; stdout is the JSON-RPC channel
-  console.error(`✅ ${server._registeredTools.size} tools, ${server._registeredResources.size} resources, ${server._registeredPrompts.size} prompt ready`);
+  console.error("✅ 3 tools, 2 resources, 1 prompt ready");
   console.error("   stdio transport — wire into Claude Desktop or Cursor");
 }
 
