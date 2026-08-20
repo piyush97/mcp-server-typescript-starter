@@ -1,5 +1,7 @@
 # MCP Server TypeScript Starter
 
+[![CI](https://github.com/piyush97/mcp-server-typescript-starter/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/piyush97/mcp-server-typescript-starter/actions/workflows/ci.yml)
+
 A production-grade [Model Context Protocol](https://modelcontextprotocol.io) server starter in TypeScript. Three tools, two resources, one prompt, streaming progress, Zod validation, and dual transport (stdio + HTTP).
 
 ## Quick start
