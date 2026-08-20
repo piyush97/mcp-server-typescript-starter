@@ -1,0 +1,29 @@
+# Stale bot — labels stale issues and PRs, never auto-closes
+# See https://github.com/actions/stale
+name: Stale
+
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mark stale issues and pull requests
+        uses: actions/stale@v11
+        with:
+          days-before-issue-stale: 60
+          days-before-issue-close: -1
+          days-before-pr-stale: 30
+          days-before-pr-close: -1
+          stale-issue-label: "stale"
+          stale-pr-label: "stale"
+          exempt-pr-labels: "dependencies"
+          operations-per-run: 100
+          remove-stale-when-updated: true
