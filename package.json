@@ -11,6 +11,7 @@
     "dev:node:http": "npx tsx src/http.ts",
     "build": "bun build src/index.ts --outdir dist --target node",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "start": "node dist/index.js",
     "start:http": "node dist/http.js"
   },
@@ -35,6 +36,7 @@
     "@types/express": "^5.0.0",
     "@types/node": "^22.0.0",
     "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^4.1.11"
   }
 }
