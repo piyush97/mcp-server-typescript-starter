@@ -29,13 +29,13 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
-    "express": "^4.21.0",
+    "express": "^4.22.3",
     "zod": "^3.24.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.20.1",
-    "tsx": "^4.23.12",
+    "@types/node": "^22.20.3",
+    "tsx": "^4.23.13",
     "typescript": "^5.7.0",
     "vitest": "^4.1.11"
   }
